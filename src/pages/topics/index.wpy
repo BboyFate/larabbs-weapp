@@ -79,6 +79,7 @@
 <script>
   import wepy from 'wepy'
   import api from '@/utils/api'
+  import util from '@/utils/util'
   import topicList from '@/components/topicList'
 
   export default class TopicIndex extends wepy.page {
@@ -143,11 +144,17 @@
       this.$apply()
     }
 
-    onLoad() {
+    onLoad () {
       // 获取分类数据
       this.getCategories()
       // 调用组件的 reload 方法
       this.$invoke('topiclist', 'reload')
+    }
+
+    onShow () {
+      this.$parent.checkRefreshPages(this.getCurrentPages().pop().route, () => {
+        this.$invoke('topiclist', 'reload')
+      })
     }
 
     // 下拉刷新

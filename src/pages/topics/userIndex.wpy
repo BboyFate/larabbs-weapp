@@ -7,6 +7,7 @@
 </template>
 <script>
   import wepy from 'wepy'
+  import util from '@/utils/util'
   import topicList from '@/components/topicList'
 
   export default class UserIndex extends wepy.page {
@@ -22,12 +23,18 @@
       topiclist: topicList
     }
 
-    onLoad(options) {
+    onLoad (options) {
       this.requestUrl = 'users/' + options.user_id + '/topics'
       // 组件数据改变，也需要调用 this.$apply()
       this.$apply()
       // 调用组件 reload 方法
       this.$invoke('topiclist', 'reload')
+    }
+
+    onShow () {
+      this.$parent.checkRefreshPages(util.getCurrentPageUrl(), () => {
+        this.$invoke('topiclist', 'reload')
+      })
     }
 
     // 下拉刷新
