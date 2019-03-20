@@ -15,6 +15,13 @@ page{
 .topic-title {
   padding: 15px;
 }
+.create-reply {
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+}
 </style>
 
 <template>
@@ -75,6 +82,11 @@ page{
         </view>
       </view>
 
+      <!-- 回复按钮 -->
+      <navigator url="/pages/replies/create?topic_id={{ topic.id }}">
+        <image src="/images/reply.png" class="create-reply" />
+      </navigator>
+
     </view>
   </view>
 </template>
@@ -104,8 +116,8 @@ page{
       }
     }
     methods = {
+      // 删除话题
       async deleteTopic () {
-        // 删除确认
         let res = await wepy.showModal({
           title: '确认删除',
           content: '您确认删除该话题吗',
@@ -201,5 +213,11 @@ page{
       this.user = await this.$parent.getCurrentUser()
       this.$apply()
     }
+
+    async onShow (options) {
+      this.$parent.checkRefreshPages(util.getCurrentPageUrl(), () => {
+        this.getTopic(this.topic.id)
+      })
     }
+  }
 </script>

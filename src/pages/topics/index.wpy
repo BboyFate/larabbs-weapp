@@ -51,6 +51,7 @@
     }
   }
 </style>
+
 <template>
 <view class="page">
   <view class="category-list__item">
@@ -76,9 +77,11 @@
   </view>
 </view>
 </template>
+
 <script>
   import wepy from 'wepy'
   import api from '@/utils/api'
+  import util from '@/utils/util'
   import topicList from '@/components/topicList'
 
   export default class TopicIndex extends wepy.page {
@@ -151,7 +154,7 @@
     }
 
     onShow () {
-      this.$parent.checkRefreshPages(this.getCurrentPages().pop().route, () => {
+      this.$parent.checkRefreshPages(util.getCurrentPageUrl(), () => {
         this.$invoke('topiclist', 'reload')
       })
     }
