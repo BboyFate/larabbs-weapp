@@ -79,7 +79,6 @@
 <script>
   import wepy from 'wepy'
   import api from '@/utils/api'
-  import util from '@/utils/util'
   import topicList from '@/components/topicList'
 
   export default class TopicIndex extends wepy.page {
