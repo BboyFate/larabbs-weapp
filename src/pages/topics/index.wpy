@@ -83,6 +83,7 @@
   import api from '@/utils/api'
   import util from '@/utils/util'
   import topicList from '@/components/topicList'
+  import unreadCount from '@/mixins/unreadCount'
 
   export default class TopicIndex extends wepy.page {
     config = {
@@ -94,6 +95,17 @@
       categoryOpen: false,
       currentCategory: {},
       requestData: {}
+    }
+    // 使用 topicList 组件
+    components = {
+      topiclist: topicList
+    }
+    mixins = [unreadCount]
+    computed = {
+      // 当前选中的分类id
+      currentCategoryId () {
+        return this.currentCategory.id || 0
+      }
     }
     methods = {
       // 切换分类列表展示
@@ -109,16 +121,6 @@
 
         // 调用组件的 reload 方法
         this.$invoke('topiclist', 'reload')
-      }
-    }
-    // 使用 topicList 组件
-    components = {
-      topiclist: topicList
-    }
-    computed = {
-      // 当前选中的分类id
-      currentCategoryId () {
-        return this.currentCategory.id || 0
       }
     }
 
